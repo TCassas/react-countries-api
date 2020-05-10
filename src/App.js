@@ -5,7 +5,7 @@ import Header from './components/Header'
 import Spinner from './components/Spinner'
 import Countries from './components/Countries'
 import CountrieInfo from './components/CountrieInfo'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import {HashRouter as Router, Switch, Route} from 'react-router-dom'
 
 function App() {
   const [countries, setCountries] = useState([])
