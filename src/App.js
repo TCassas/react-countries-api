@@ -1,25 +1,84 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from "react"
 import './App.css';
+import Nav from './components/Nav'
+import Header from './components/Header'
+import Spinner from './components/Spinner'
+import Countries from './components/Countries'
+import CountrieInfo from './components/CountrieInfo'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 function App() {
+  const [countries, setCountries] = useState([])
+  const [countrieSearch, setCountrieSearch] = useState("")
+  const [lightMode, setTheme] = useState(true)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch("https://restcountries.eu/rest/v2/all")
+    .then(response => response.json())
+    .then(data => {
+      setCountries(data)
+      setLoading(!loading)
+    })
+  }, [])
+
+  const handleRegion = (event) => {
+    if(event.target.value !== "") {
+      fetch(`https://restcountries.eu/rest/v2/region/${event.target.value}`)
+      .then(response => response.json())
+      .then(data => setCountries(data))
+    } else {
+      fetch("https://restcountries.eu/rest/v2/all")
+      .then(response => response.json())
+      .then(data => setCountries(data))
+    }
+  }
+
+  const handleClick = (event) => {
+    setTheme(!lightMode)
+  }
+
+  const handleChange = (event) => {
+    setCountrieSearch(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    console.log(`https://restcountries.eu/rest/v2/name/${countrieSearch}`)
+    if(countrieSearch.length > 0) {
+      fetch(`https://restcountries.eu/rest/v2/name/${countrieSearch}`)
+      .then(response => response.json())
+      .then(data => setCountries(data))
+    } else {
+      fetch("https://restcountries.eu/rest/v2/all")
+      .then(response => response.json())
+      .then(data => setCountries(data))
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className={lightMode ? "App"  : "darkApp"}>
+        <Header handleClick={handleClick} lightMode={lightMode}/>
+        <div className="background">
+          <Switch>
+
+            <Route path="/" exact>
+              <Nav handleChange={handleChange} handleSubmit={handleSubmit} countrieSearch={countrieSearch} lightMode={lightMode} handleRegion={handleRegion}/>
+              {loading ? <Spinner loader="MoonLoader" spinnerColor={lightMode? "#000000" : "#ffffff"}/> :
+                countries.length > 0 ? <Countries countries={countries} lightMode={lightMode}/> : "Country not found"
+              }
+            </Route>
+
+            <Route path="/countries/:id">
+              <CountrieInfo lightMode={lightMode}/>
+            </Route>
+
+          </Switch>
+        </div>
+      </div>
+    </Router>
   );
 }
 
