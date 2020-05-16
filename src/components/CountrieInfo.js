@@ -16,7 +16,7 @@ function CountrieInfo(props) {
     })
   }, [])
 
-  // {console.log(countrie)}
+  const countrieBorders = (borders) => borders.map(border => border + " ")
 
   return (
     <div className="detailed-countrie container">
@@ -25,7 +25,7 @@ function CountrieInfo(props) {
           <p><ion-icon name="arrow-back-outline"></ion-icon> Back</p>
         </Link>
       </div>
-      {loading ? <Spinner loader="MoonLoader" spinnerColor={props.lightMode? "#000000" : "#ffffff"}/> :
+      {loading ? <Spinner loader="MoonLoader" spinnerColor={props.lightMode ? "#000000" : "#ffffff"}/> :
         countrie ?
           <div className="countrie-details" style={props.lightMode ? null : {color: "white"}}>
             <div className="countrie-details_flag">
@@ -42,13 +42,18 @@ function CountrieInfo(props) {
                   <p><span className="countrie-propertie">Capital: </span>{countrie.capital}</p>
                 </div>
                 <div className="rightInfo">
-                  <p><span className="countrie-propertie">Top level domain: </span></p>
-                  <p><span className="countrie-propertie">Currencies: </span></p>
-                  <p><span className="countrie-propertie">Languages: </span></p>
+                  <p><span className="countrie-propertie">Top level domain: </span>{countrie.topLevelDomain}</p>
+                  <p><span className="countrie-propertie">Currencies: </span>{countrie.currencies[0].code} ({countrie.currencies[0].name})</p>
+                  <p><span className="countrie-propertie">Languages: </span>{countrie.languages[0].name}</p>
                 </div>
               </div>
               <div>
-                <p><span className="countrie-propertie">Border Countries: </span></p>
+                <p><span className="countrie-propertie countrie-borders">Border Countries: </span></p>
+                <span>
+                  {
+                    countrieBorders(countrie.borders).map(border => border)
+                  }
+                </span>
               </div>
             </div>
           </div>

@@ -38,6 +38,7 @@ header {
 .pre-nav h1 {
   font-weight: 800;
   font-size: 1.8em;
+  text-align: start;
 }
 
 .pre-nav button {
@@ -151,6 +152,10 @@ select {
   color: black;
 }
 
+.countrie-borders {
+  margin-right: 4px;
+}
+
 /*Countrie info*/
 
 .countrie-details {
@@ -194,10 +199,8 @@ select {
   width: 50%;
 }
 
-.leftInfo {
-}
-
-.rightInfo {
+.rightInfo p span {
+  margin-right: 4px;
 }
 
 .detailed-countrie {
