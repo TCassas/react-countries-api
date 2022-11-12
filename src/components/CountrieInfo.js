@@ -8,7 +8,7 @@ function CountrieInfo(props) {
   let { id } = useParams()
 
   useEffect(() => {
-    fetch(`https://restcountries.eu/rest/v2/name/${id}?fullText=true`)
+    fetch(`https://restcountries.com/v3.1/name/${id}?fullText=true`)
     .then(response => response.json())
     .then(data => {
       setCountrie(data[0])

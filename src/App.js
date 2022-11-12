@@ -14,7 +14,7 @@ function App() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch("https://restcountries.eu/rest/v2/all")
+    fetch("https://restcountries.com/v3.1/all")
     .then(response => response.json())
     .then(data => {
       setCountries(data)
@@ -24,11 +24,11 @@ function App() {
 
   const handleRegion = (event) => {
     if(event.target.value !== "") {
-      fetch(`https://restcountries.eu/rest/v2/region/${event.target.value}`)
+      fetch(`https://restcountries.com/v3.1/region/${event.target.value}`)
       .then(response => response.json())
       .then(data => setCountries(data))
     } else {
-      fetch("https://restcountries.eu/rest/v2/all")
+      fetch("https://restcountries.com/v3.1/all")
       .then(response => response.json())
       .then(data => setCountries(data))
     }
@@ -45,13 +45,12 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    console.log(`https://restcountries.eu/rest/v2/name/${countrieSearch}`)
     if(countrieSearch.length > 0) {
-      fetch(`https://restcountries.eu/rest/v2/name/${countrieSearch}`)
+      fetch(`https://restcountries.com/v3.1/name/${countrieSearch}`)
       .then(response => response.json())
       .then(data => setCountries(data))
     } else {
-      fetch("https://restcountries.eu/rest/v2/all")
+      fetch("https://restcountries.com/v3.1/all")
       .then(response => response.json())
       .then(data => setCountries(data))
     }
